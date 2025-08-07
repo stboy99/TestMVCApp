@@ -1,0 +1,8 @@
+@model PersonFormViewModel
+@{
+    ViewData["Title"] = "Edit Person";
+}
+
+<h2>Add Person</h2>
+
+@await Html.PartialAsync("~/Views/Shared/CustomForm.cshtml", Model)

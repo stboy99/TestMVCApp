@@ -1,0 +1,51 @@
+<form method="post" action="@Model.FormAction">
+    @foreach (var field in Model.Fields)
+    {
+    <div class="mb-3">
+        <label for="@field.Name" class="form-label">@field.Label</label>
+
+        @switch (field.Type.ToLower())
+            {
+                case "textarea":
+        <textarea class="form-control"
+                  id="@field.Name"
+                  name="@field.Name"
+                  required="@(field.IsRequired ? "required" : null)">@field.Value</textarea>
+                    break;
+
+                case "select":
+        <select class="form-select" id="@field.Name" name="@field.Name" required="@(field.IsRequired ? "Isrequired" : null)">
+            @foreach (var option in field.Options ?? new List<SelectOption>())
+                        {
+            <option value="@option.Value" selected="@(option.Value == field.Value ? "selected" : null)">
+                @option.Text
+            </option>
+                        }
+        </select>
+                    break;
+
+                case "checkbox":
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="@field.Name" name="@field.Name" value="true" checked="@(field.Value == "true")" />
+            <label class="form-check-label" for="@field.Name">@field.Label</label>
+        </div>
+                    break;
+
+                default:
+        <input type="@field.Type"
+               class="form-control"
+               id="@field.Name"
+               name="@field.Name"
+               value="@field.Value"
+               required="@(field.IsRequired ? "required" : null)" />
+                    break;
+            }
+    </div>
+    }
+
+    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
+    @if (!string.IsNullOrEmpty(Model.LinkText) && !string.IsNullOrEmpty(Model.LinkUrl))
+    {
+        <a href="@Model.LinkUrl" class="btn btn-secondary">@Model.LinkText</a>
+    }
+</form>
