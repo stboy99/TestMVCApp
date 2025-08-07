@@ -39,8 +39,18 @@ public class AccountController : Controller
         var user = await _repo.GetByUsernameAsync(username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
         {
+            var model = new LoginFormViewModel
+            {
+                FormAction = "/Account/Login",
+                ButtonText = "Login",
+                Fields = new List<FormField>
+            {
+                new FormField { Name = "Username", Label = "Username", Type = "text", IsRequired = true },
+                new FormField { Name = "Password", Label = "Password", Type = "password", IsRequired = true }
+            }
+            };
             ModelState.AddModelError("", "Invalid username or password");
-            return View();
+            return View(model);
         }
 
         var claims = new List<Claim>
