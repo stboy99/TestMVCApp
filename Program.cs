@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TestMVCApp.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
